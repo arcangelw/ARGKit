@@ -1,8 +1,8 @@
 //
 //  ARGViewController.h
-//  ARGKit
+//  ARGPhotoBrowser
 //
-//  Created by arcangelw on 08/08/2017.
+//  Created by arcangelw on 08/03/2017.
 //  Copyright (c) 2017 arcangelw. All rights reserved.
 //
 
