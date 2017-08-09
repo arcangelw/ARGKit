@@ -7,14 +7,25 @@
 //
 
 #import "ARGAppDelegate.h"
+#import "ARGViewController.h"
+#import "ARGDemoPageViewController.h"
 
 @implementation ARGAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor = [UIColor whiteColor];
+    ARGDemoPageViewController *page = [[ARGDemoPageViewController alloc]init];
+    UINavigationController *nav  = [[UINavigationController alloc]initWithRootViewController:page];
+//    [nav.navigationBar setTranslucent:NO];
+    self.window.rootViewController = nav;
+    [self.window makeKeyAndVisible];
+
     return YES;
 }
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

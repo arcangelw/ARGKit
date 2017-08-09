@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		33DEE73A1F3B2A5200F2084C /* ARGDemoPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DEE7391F3B2A5200F2084C /* ARGDemoPageViewController.m */; };
 		347C8FAA83F0924B0AEAB542 /* Pods_ARGKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF48679B4E510327A90CBEDA /* Pods_ARGKit_Example.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -37,10 +38,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1CD472B168DE2A16785C24F8 /* ARGKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = ARGKit.podspec; path = ../ARGKit.podspec; sourceTree = "<group>"; };
+		1CD472B168DE2A16785C24F8 /* ARGKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = ARGKit.podspec; path = ../ARGKit.podspec; sourceTree = "<group>"; };
 		281E6DC69DE2FCAB2E2F5CD4 /* Pods-ARGKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARGKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARGKit_Tests/Pods-ARGKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		33DEE7381F3B2A5200F2084C /* ARGDemoPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARGDemoPageViewController.h; sourceTree = "<group>"; };
+		33DEE7391F3B2A5200F2084C /* ARGDemoPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARGDemoPageViewController.m; sourceTree = "<group>"; };
 		4EBB0AD5E45DE30E44D89543 /* Pods-ARGKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARGKit_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARGKit_Example/Pods-ARGKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		5E7D63D7C2C40DE8B7C5CD0A /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		5E7D63D7C2C40DE8B7C5CD0A /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* ARGKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARGKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -62,7 +65,7 @@
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		6B7C4E61AC098A1143C4C11D /* Pods_ARGKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARGKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		7C1B1D82A2C86209E90B5541 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		7C1B1D82A2C86209E90B5541 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9776EC545D01DAB2ADCC7A90 /* Pods-ARGKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARGKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARGKit_Tests/Pods-ARGKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		AF48679B4E510327A90CBEDA /* Pods_ARGKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARGKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +140,8 @@
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* ARGViewController.h */,
 				6003F5A6195388D20070C39A /* ARGViewController.m */,
+				33DEE7381F3B2A5200F2084C /* ARGDemoPageViewController.h */,
+				33DEE7391F3B2A5200F2084C /* ARGDemoPageViewController.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -395,6 +400,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* ARGAppDelegate.m in Sources */,
+				33DEE73A1F3B2A5200F2084C /* ARGDemoPageViewController.m in Sources */,
 				6003F5A7195388D20070C39A /* ARGViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);

@@ -30,6 +30,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.extendedLayoutIncludesOpaqueBars = YES;
     [[SDWebImageManager sharedManager].imageDownloader downloadImageWithURL:[NSURL URLWithString:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502173366193&di=56a62a9c0e66a84ecb33ae24fb31fda9&imgtype=0&src=http%3A%2F%2Fwww.ai1mi.com%2Fdata%2Fuploads%2F2014%2F0830%2F17%2F1409390969252541.jpg"] options:kNilOptions progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
         
     } completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
@@ -39,9 +41,15 @@
         }
     }];
     
+    UIView *conv = [UIView new];
+    conv.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
+    conv.frame = self.view.bounds;
+    [self.view addSubview:conv];
     self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin;
-    self.scrollView.frame = self.view.bounds;
-    [self.view addSubview:self.scrollView];
+    self.scrollView.contentInset = UIEdgeInsetsZero;
+    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsZero;
+    self.scrollView.frame = conv.bounds;
+    [conv addSubview:self.scrollView];
     
     for (NSInteger i = 0; i < self.groupItems.count; i ++) {
         UIImageView *imageView = [UIImageView new];
@@ -60,6 +68,19 @@
         item.thumbView = imageView;
     }
     self.scrollView.contentSize = CGSizeMake(self.view.arg_width, 180.f * self.groupItems.count);
+}
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    NSLog(@"%@ viewWillAppear",self.title);
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    NSLog(@"%@ viewWillDisappear",self.title);
 }
 
 - (void)tap:(UITapGestureRecognizer *)t

@@ -318,7 +318,8 @@
     for (NSArray *cells in self.cacheCells.allValues) {
         for (ARGGroupCell *cell in cells) {
             if (cell.superview) {
-                if (cell.arg_left > self.contentOffset.x + self.arg_width + self.padding || cell.arg_right < self.contentOffset.x - self.arg_width - self.padding) {
+                ///优化计算 保证缓存池中缓存cell数量最小
+                if (cell.arg_left >= self.contentOffset.x + self.arg_width + self.padding || cell.arg_right <= self.contentOffset.x - self.arg_width - self.padding) {
                     [cell dequeueReusable];
                     [cell removeFromSuperview];
                 }
