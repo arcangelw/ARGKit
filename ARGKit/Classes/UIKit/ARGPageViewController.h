@@ -12,15 +12,22 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface ARGPageViewController : UIViewController
 
+- (void)addChildViewController:(UIViewController *)childController UNAVAILABLE_ATTRIBUTE;
+@property(nonatomic,readonly) NSArray<__kindof UIViewController *> *childViewControllers UNAVAILABLE_ATTRIBUTE;
+
+
+/// contentInset
+@property(nonatomic ,assign) UIEdgeInsets contentInset;
+
 /// viewControllers
 @property(nullable, nonatomic, copy) NSArray<__kindof UIViewController *> *viewControllers;
 
 - (void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewController atSelectedIndex:(NSUInteger)selectedIndex;
 
-- (void)insertViewController:(nullable UIViewController *)viewControllers atIndex:(NSUInteger)index;
+- (void)insertViewController:(nonnull UIViewController *)viewControllers atIndex:(NSUInteger)index;
 
 - (void)removeAtIndex:(NSUInteger)index;
-- (void)removeViewController:(UIViewController *)viewController;
+- (void)removeViewController:(nonnull UIViewController *)viewController;
 
 /// selectedViewController
 @property(nullable, nonatomic, assign) __kindof UIViewController *selectedViewController;
@@ -28,7 +35,5 @@ NS_ASSUME_NONNULL_BEGIN
 /// selectedIndex
 @property(nonatomic) NSUInteger selectedIndex;
 
-/// contentInset
-@property(nonatomic ,assign) UIEdgeInsets contentInset;
 @end
 NS_ASSUME_NONNULL_END

@@ -68,17 +68,6 @@
 
 
 #pragma mark - @private
-- (void)addChildViewController:(UIViewController *)childController
-{
-    NSMutableArray *viewControllers = self.viewControllers.mutableCopy;
-    [viewControllers addObject:childController];
-    self.viewControllers = viewControllers.copy;
-}
-
-- (NSArray<UIViewController *> *)childViewControllers
-{
-    return self.viewControllers;
-}
 
 - (void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers
 {
@@ -169,7 +158,7 @@
 #pragma mark - <##>UIPageViewControllerDataSource
 
 /// 向前翻页
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
 {
     NSInteger idx = [self.viewControllers indexOfObject:viewController] - 1;
     if (idx>= 0) {
@@ -179,7 +168,7 @@
 }
 
 /// 向后翻页
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
 {
     NSInteger idx = [self.viewControllers indexOfObject:viewController] + 1;
     if (idx < self.viewControllers.count) {
