@@ -19,8 +19,11 @@
     self.window.backgroundColor = [UIColor whiteColor];
     ARGDemoPageViewController *page = [[ARGDemoPageViewController alloc]init];
     UINavigationController *nav  = [[UINavigationController alloc]initWithRootViewController:page];
-//    [nav.navigationBar setTranslucent:NO];
-    self.window.rootViewController = nav;
+    [nav.navigationBar setTranslucent:NO];
+    UITabBarController *tabbar = [[UITabBarController alloc]init];
+    [tabbar addChildViewController:nav];
+    [tabbar.tabBar setTranslucent:NO];
+    self.window.rootViewController = tabbar;
     [self.window makeKeyAndVisible];
 
     return YES;

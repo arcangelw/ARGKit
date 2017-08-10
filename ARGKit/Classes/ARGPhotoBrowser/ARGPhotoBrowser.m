@@ -67,7 +67,7 @@ NSString *const kARGPhotoGroupViewWillActivation = @"kARGPhotoGroupViewWillActiv
     if (self) {
         self.blurEffectBackground = NO;
         [self transitioning];
-        self.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+        self.modalPresentationStyle = UIModalPresentationOverFullScreen;
         self.transitioningDelegate = _transitioning;
         self.groupItems = groupItems.copy;
         self.fromView = fromView;

@@ -8,7 +8,7 @@
 
 #import "ARGDemoPageViewController.h"
 #import "ARGViewController.h"
-@interface ARGDemoPageViewController ()
+@interface ARGDemoPageViewController ()<ARGPageViewControllerSubclassing>
 
 @end
 
@@ -17,8 +17,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setSelectedIndex:6];
-    self.contentInset = UIEdgeInsetsMake(64.f, 0.f, 0.f, 0.f);
     NSMutableArray *vs = @[].mutableCopy;
     for (NSInteger i=0 ; i < 10; i++) {
         ARGViewController *v = [[ARGViewController alloc]init];
@@ -28,6 +26,17 @@
     [self setViewControllers:vs atSelectedIndex:6];
     
     
+}
+
+
+- (void)pageViewController:(ARGPageViewController *)pageViewController willTransitionToViewController:(UIViewController *)viewController index:(NSUInteger)index progress:(CGFloat)progress
+{
+    NSLog(@"pageViewController will to indx : %lu  progress : %f",(unsigned long)index , progress);
+}
+
+- (void)pageViewController:(ARGPageViewController *)pageViewController didTransitionToViewController:(UIViewController *)viewController index:(NSUInteger)index
+{
+    NSLog(@"pageViewController did to indx :%lu",(unsigned long)index);
 }
 
 @end
