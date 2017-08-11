@@ -49,18 +49,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewController atSelectedIndex:(NSUInteger)selectedIndex;
 
-/**
-- (void)insertViewController:(nonnull UIViewController *)viewControllers atIndex:(NSUInteger)index;
+
+- (void)insertViewController:(nonnull UIViewController *)viewController atIndex:(NSUInteger)index;
+- (void)insertViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers atIndex:(NSUInteger)index;
+
 
 - (void)removeAtIndex:(NSUInteger)index;
 - (void)removeViewController:(nonnull UIViewController *)viewController;
-*/
 
 /// selectedViewController
 @property(nullable, nonatomic, readonly, assign) __kindof UIViewController *selectedViewController;
 
 /// selectedIndex
 @property(nonatomic) NSUInteger selectedIndex;
+- (void)setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated;
 
 @end
 NS_ASSUME_NONNULL_END

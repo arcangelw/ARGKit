@@ -68,6 +68,7 @@
         item.thumbView = imageView;
     }
     self.scrollView.contentSize = CGSizeMake(self.view.arg_width, 180.f * self.groupItems.count);
+    NSLog(@"%@ viewDidLoad ",self.title);
 }
 
 

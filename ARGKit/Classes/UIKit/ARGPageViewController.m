@@ -15,7 +15,7 @@
 /// pageController
 @property(nonatomic ,strong) UIPageViewController *pageController;
 /// tmpIndex
-@property(nonatomic ) NSUInteger tmpIndex;
+@property NSUInteger tmpIndex;
 @end
 
 @implementation ARGPageViewController
@@ -84,9 +84,11 @@
 #pragma mark - @private
 
 
-- (void)updatePageViewControllerDisplayViewController:(UIViewController *)displayViewController
+- (void)updatePageViewControllerDisplayViewController:(UIViewController *)displayViewController animated:(BOOL)animated
 {
-    [self.pageController setViewControllers:@[displayViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+    if (displayViewController) {
+        [self.pageController setViewControllers:@[displayViewController] direction:UIPageViewControllerNavigationDirectionForward animated:animated completion:nil];
+    }
 }
 
 
@@ -104,43 +106,66 @@
     self.selectedIndex = selectedIndex;
 }
 
-/**
+
 - (void)insertViewController:(UIViewController *)viewController atIndex:(NSUInteger)index
 {
-    NSMutableArray *viewControllers = self.viewControllers.mutableCopy;
-    [viewControllers insertObject:viewController atIndex:index];
-    _viewControllers = viewControllers;
-    if (index >self.selectedIndex) {
-        self.selectedIndex = self.selectedIndex;
+    if (viewController) {
+        [self insertViewControllers:@[viewController] atIndex:index];
+    }
+}
+
+- (void)insertViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers atIndex:(NSUInteger)index
+{
+    NSMutableArray *tmpViewControllers = self.viewControllers.mutableCopy;
+    index = PAGE_CLAMP(index, 0, tmpViewControllers.count);
+    for (NSUInteger i = 0; i < viewControllers.count; i ++) {
+        [tmpViewControllers insertObject:viewControllers[i] atIndex:index + i];
+    }
+    _viewControllers = tmpViewControllers.copy;
+    
+    if (index <= self.selectedIndex) {
+        self.selectedIndex += 1;
+        [self setSelectedIndex:self.selectedIndex + 1 animated:NO];
     }else{
-        self.selectedViewController = self.selectedViewController;
+        [self setSelectedIndex:self.selectedIndex animated:NO];
     }
 }
 
 
 - (void)removeAtIndex:(NSUInteger)index
 {
-    if (index < self.viewControllers.count) {
-        [self removeViewController:self.viewControllers[index]];
+    ///最后保留一个控制器
+    if (self.viewControllers.count == 1) return;
+    index = PAGE_CLAMP(index, 0, self.viewControllers.count - 1);
+    NSMutableArray *viewControllers = self.viewControllers.mutableCopy;
+    [viewControllers removeObjectAtIndex:index];
+    _viewControllers = viewControllers.copy;
+    if (index < self.selectedIndex) {
+        self.selectedIndex -= 1;
+    }else{
+        self.selectedIndex = self.selectedIndex;
     }
 }
 
 - (void)removeViewController:(UIViewController *)viewController
 {
-    NSMutableArray *viewControllers = self.viewControllers.mutableCopy;
-    [viewControllers removeObject:viewController];
-    _viewControllers = viewControllers;
-    if ([viewController isEqual:viewController]) {
-        self.selectedIndex = self.selectedIndex;
-    }else{
-        self.selectedViewController = self.selectedViewController;
+    NSUInteger idx = [self.viewControllers indexOfObject:viewController];
+    if (idx != NSNotFound) {
+        [self removeAtIndex:idx];
     }
 }
-*/
 
 - (void)setSelectedIndex:(NSUInteger)selectedIndex
 {
+    [self setSelectedIndex:selectedIndex animated:YES];
+}
+
+- (void)setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated
+{
     if (!_viewControllers.count) return;
+    
+//    NSUInteger oldIdx = _selectedIndex;
+    
     if (selectedIndex < self.viewControllers.count){
         _selectedIndex = selectedIndex;
     }else{
@@ -148,9 +173,14 @@
     }
     _selectedViewController = self.viewControllers[_selectedIndex];
     
-    [self updatePageViewControllerDisplayViewController:_selectedViewController];
+    [self updatePageViewControllerDisplayViewController:_selectedViewController animated:animated];
     
     [self updateAppearance];
+    
+//    if (_selectedIndex != oldIdx) {
+//        [self pageViewControllerDidTransition];
+//    }
+    [self pageViewControllerDidTransition];
 }
 
 
@@ -351,23 +381,29 @@
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed
 {
-    if (completed) {
+    if (completed && self.tmpIndex != NSNotFound) {
         _selectedIndex = self.tmpIndex;
         _selectedViewController = self.viewControllers[_selectedIndex];
         [self updateAppearance];
     }
     
+    [self pageViewControllerDidTransition];
+}
+
+
+- (void)pageViewControllerDidTransition
+{
     if ([self conformsToProtocol:@protocol(ARGPageViewControllerSubclassing)]) {
         id<ARGPageViewControllerSubclassing> class = (id)self;
         [class pageViewController:self didTransitionToViewController:self.selectedViewController index:self.selectedIndex];
     }
-    
 }
 
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+
     NSInteger index = round(scrollView.contentOffset.x / CGRectGetWidth(scrollView.frame)) - 1 + _selectedIndex;
     
     NSUInteger idx = PAGE_CLAMP(index, 0, self.viewControllers.count - 1);
