@@ -9,6 +9,7 @@
 #import "ARGAppDelegate.h"
 #import "ARGViewController.h"
 #import "ARGDemoPageViewController.h"
+#import "ARGDemoEmptyViewController.h"
 
 @implementation ARGAppDelegate
 
@@ -18,10 +19,23 @@
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     ARGDemoPageViewController *page = [[ARGDemoPageViewController alloc]init];
-    UINavigationController *nav  = [[UINavigationController alloc]initWithRootViewController:page];
-    [nav.navigationBar setTranslucent:NO];
+    UINavigationController *nav0  = [[UINavigationController alloc]initWithRootViewController:page];
+    [nav0.navigationBar setTranslucent:NO];
+    
+    ARGDemoEmptyViewController *empty = [[ARGDemoEmptyViewController alloc]init];
+    empty.title = @"pageViewController";
+    UINavigationController *nav1  = [[UINavigationController alloc]initWithRootViewController:empty];
+    [nav1.navigationBar setTranslucent:NO];
+    
+    ARGViewController *photo = [[ARGViewController alloc]init];
+    photo.title = @"图片浏览器";
+    UINavigationController *nav2  = [[UINavigationController alloc]initWithRootViewController:photo];
+    [nav2.navigationBar setTranslucent:NO];
+    
     UITabBarController *tabbar = [[UITabBarController alloc]init];
-    [tabbar addChildViewController:nav];
+    [tabbar addChildViewController:nav0];
+    [tabbar addChildViewController:nav1];
+    [tabbar addChildViewController:nav2];
     [tabbar.tabBar setTranslucent:NO];
     self.window.rootViewController = tabbar;
     [self.window makeKeyAndVisible];

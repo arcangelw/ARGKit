@@ -38,6 +38,16 @@
                ReferencedContainer = "container:ARGKit.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "33D079401F413CEE004D4C66"
+               BuildableName = "ARGKit_ExampleUITests.xctest"
+               BlueprintName = "ARGKit_ExampleUITests"
+               ReferencedContainer = "container:ARGKit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

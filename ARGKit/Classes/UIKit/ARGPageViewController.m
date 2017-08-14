@@ -10,12 +10,23 @@
 
 #define PAGE_CLAMP(_x_, _low_, _high_)  (((_x_) > (_high_)) ? (_high_) : (((_x_) < (_low_)) ? (_low_) : (_x_)))
 
+#define ARGLock() dispatch_semaphore_wait(self->_arg_lock, DISPATCH_TIME_FOREVER)
+#define ARGUnlock() dispatch_semaphore_signal(self->_arg_lock)
+
 @interface ARGPageViewController ()<UIPageViewControllerDataSource,UIPageViewControllerDelegate,UIScrollViewDelegate>
+{
+    dispatch_semaphore_t _arg_lock;
+}
 
 /// pageController
 @property(nonatomic ,strong) UIPageViewController *pageController;
 /// tmpIndex
 @property NSUInteger tmpIndex;
+@property(nonatomic ,strong) NSLayoutConstraint *contraint1;
+@property(nonatomic ,strong) NSLayoutConstraint *contraint2;
+@property(nonatomic ,strong) NSLayoutConstraint *contraint3;
+@property(nonatomic ,strong) NSLayoutConstraint *contraint4;
+
 @end
 
 @implementation ARGPageViewController
@@ -25,6 +36,7 @@
 {
     self = [super init];
     if (self) {
+        _arg_lock = dispatch_semaphore_create(1);
         _selectedIndex = 0;
         _contentInset = UIEdgeInsetsZero;
         [super addChildViewController:self.pageController];
@@ -40,12 +52,12 @@
     
     [self.view addSubview:self.pageController.view];
     [self.pageController.view setTranslatesAutoresizingMaskIntoConstraints:NO];
-    NSLayoutConstraint *contraint1 = [NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.contentInset.top];
-    NSLayoutConstraint *contraint2 = [NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.contentInset.left];
-    NSLayoutConstraint *contraint3 = [NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.contentInset.bottom];
-    NSLayoutConstraint *contraint4 = [NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:self.contentInset.right];
+    self.contraint1 = [NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.contentInset.top];
+    self.contraint2 = [NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.contentInset.left];
+    self.contraint3 = [NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.contentInset.bottom];
+    self.contraint4 = [NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:self.contentInset.right];
     //把约束添加到父视图上
-    NSArray *array = [NSArray arrayWithObjects:contraint1, contraint2, contraint3, contraint4, nil];
+    NSArray *array = [NSArray arrayWithObjects:self.contraint1, self.contraint2, self.contraint3, self.contraint4, nil];
     [self.view addConstraints:array];
     
     ///监听滑动
@@ -60,24 +72,11 @@
 - (void)updateViewConstraints
 {
     [super updateViewConstraints];
-    NSArray *constrains = self.view.constraints;
     
-    for (NSLayoutConstraint* constraint in constrains) {
-        if ([constraint.firstItem isEqual:self.pageController.view]) {
-            if (constraint.firstAttribute == NSLayoutAttributeTop) {
-                constraint.constant = self.contentInset.top;
-            }
-            else if (constraint.firstAttribute == NSLayoutAttributeLeft){
-                constraint.constant = self.contentInset.left;
-            }
-            else if (constraint.firstAttribute == NSLayoutAttributeBottom){
-                constraint.constant = -self.contentInset.bottom;
-            }
-            else if (constraint.firstAttribute == NSLayoutAttributeRight){
-                constraint.constant = -self.contentInset.right;
-            }
-        }
-    }
+    self.contraint1.constant = self.contentInset.top;
+    self.contraint2.constant = self.contentInset.left;
+    self.contraint3.constant = -self.contentInset.bottom;
+    self.contraint4.constant = -self.contentInset.right;
 }
 
 
@@ -94,16 +93,18 @@
 
 - (void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers
 {
+    ARGLock();
     _viewControllers = viewControllers.copy;
-    
     self.selectedIndex = 0;
+    ARGUnlock();
 }
 
 - (void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers atSelectedIndex:(NSUInteger)selectedIndex
 {
+    ARGLock();
     _viewControllers = viewControllers.copy;
-    
     self.selectedIndex = selectedIndex;
+    ARGUnlock();
 }
 
 
@@ -116,19 +117,20 @@
 
 - (void)insertViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers atIndex:(NSUInteger)index
 {
+    ARGLock();
     NSMutableArray *tmpViewControllers = self.viewControllers.mutableCopy;
     index = PAGE_CLAMP(index, 0, tmpViewControllers.count);
     for (NSUInteger i = 0; i < viewControllers.count; i ++) {
         [tmpViewControllers insertObject:viewControllers[i] atIndex:index + i];
     }
     _viewControllers = tmpViewControllers.copy;
-    
     if (index <= self.selectedIndex) {
         self.selectedIndex += 1;
         [self setSelectedIndex:self.selectedIndex + 1 animated:NO];
     }else{
         [self setSelectedIndex:self.selectedIndex animated:NO];
     }
+    ARGUnlock();
 }
 
 
@@ -136,6 +138,7 @@
 {
     ///最后保留一个控制器
     if (self.viewControllers.count == 1) return;
+    ARGLock();
     index = PAGE_CLAMP(index, 0, self.viewControllers.count - 1);
     NSMutableArray *viewControllers = self.viewControllers.mutableCopy;
     [viewControllers removeObjectAtIndex:index];
@@ -145,6 +148,7 @@
     }else{
         self.selectedIndex = self.selectedIndex;
     }
+    ARGUnlock();
 }
 
 - (void)removeViewController:(UIViewController *)viewController
@@ -164,8 +168,6 @@
 {
     if (!_viewControllers.count) return;
     
-//    NSUInteger oldIdx = _selectedIndex;
-    
     if (selectedIndex < self.viewControllers.count){
         _selectedIndex = selectedIndex;
     }else{
@@ -173,14 +175,19 @@
     }
     _selectedViewController = self.viewControllers[_selectedIndex];
     
-    [self updatePageViewControllerDisplayViewController:_selectedViewController animated:animated];
-    
-    [self updateAppearance];
-    
-//    if (_selectedIndex != oldIdx) {
-//        [self pageViewControllerDidTransition];
-//    }
-    [self pageViewControllerDidTransition];
+    __weak typeof(&*self) wself = self;
+    void(^updateViewController)() = ^() {
+        __strong typeof(&*wself) sself = wself;
+        if (!sself) return ;
+        [sself updatePageViewControllerDisplayViewController:_selectedViewController animated:animated];
+        [sself updateAppearance];
+        [sself pageViewControllerDidTransition];
+    };
+    if ([NSThread isMainThread]) {
+        updateViewController();
+    }else{
+        dispatch_async(dispatch_get_main_queue(), updateViewController);
+    }
 }
 
 
@@ -354,9 +361,11 @@
 /// 向前翻页
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
 {
-    NSInteger idx = [self.viewControllers indexOfObject:viewController] - 1;
-    if (idx>= 0 && idx != NSNotFound) {
-        return self.viewControllers[idx];
+    NSInteger idx = [self.viewControllers indexOfObject:viewController];
+    if (idx != NSNotFound) {
+        if (idx - 1 < self.viewControllers.count) {
+            return self.viewControllers[idx - 1];
+        }
     }
     return nil;
 }
@@ -364,9 +373,11 @@
 /// 向后翻页
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
 {
-    NSInteger idx = [self.viewControllers indexOfObject:viewController] + 1;
-    if (idx < self.viewControllers.count && idx != NSNotFound) {
-        return self.viewControllers[idx];
+    NSInteger idx = [self.viewControllers indexOfObject:viewController];
+    if (idx != NSNotFound) {
+        if (idx + 1 < self.viewControllers.count) {
+            return self.viewControllers[idx + 1];
+        }
     }
     return nil;
 }
@@ -381,7 +392,7 @@
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed
 {
-    if (completed && self.tmpIndex != NSNotFound) {
+    if (completed && self.tmpIndex != NSNotFound && self.tmpIndex < self.viewControllers.count) {
         _selectedIndex = self.tmpIndex;
         _selectedViewController = self.viewControllers[_selectedIndex];
         [self updateAppearance];

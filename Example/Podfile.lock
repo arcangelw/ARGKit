@@ -25,16 +25,16 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   ARGKit:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
   ARGKit: bd52ced85f80ec43cb7bbf7534fbb4856fc0bbd9
   Expecta: 3b6bd90a64b9a1dcb0b70aa0e10a7f8f631667d5
   Expecta+Snapshots: dcff217eef506dabd6dfdc7864ea2da321fafbb8
-  FBSnapshotTestCase: '094f9f314decbabe373b87cc339bea235a63e07a'
+  FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   SDWebImage: 0e435c14e402a6730315a0fb79f95e68654d55a4
   Specta: f506f3a8361de16bc0dcf3b17b75e269072ba465
 
-PODFILE CHECKSUM: 5e34f21d37f7215aaae2be6a47db50576a1f6be1
+PODFILE CHECKSUM: 1abdaad53d17d8937d3c85283a9408080d1fd47d
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.3.1

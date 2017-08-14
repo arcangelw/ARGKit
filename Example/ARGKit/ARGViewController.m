@@ -7,12 +7,12 @@
 //
 
 #import "ARGViewController.h"
-#import "ARGPhotoBrowser.h"
+#import <ARGKit/ARGPhotoBrowser.h>
 #import <SDWebImage/SDImageCache.h>
 #import <SDWebImage/SDWebImageManager.h>
 #import <SDWebImage/UIView+WebCache.h>
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "UIView+ARGPhoto.h"
+#import <ARGKit/UIView+ARGPhoto.h>
 
 @interface ARGViewController ()
 /// tabelView

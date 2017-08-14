@@ -6,7 +6,7 @@
 //  Copyright © 2017年 arcangelw. All rights reserved.
 //
 
-#import "ARGPageViewController.h"
+#import <ARGKit/ARGPageViewController.h>
 
 @interface ARGDemoPageViewController : ARGPageViewController
 
