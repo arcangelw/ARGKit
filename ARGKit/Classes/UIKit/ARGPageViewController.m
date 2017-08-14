@@ -83,10 +83,10 @@
 #pragma mark - @private
 
 
-- (void)updatePageViewControllerDisplayViewController:(UIViewController *)displayViewController animated:(BOOL)animated
+- (void)updatePageViewControllerDisplayViewController:(UIViewController *)displayViewController direction:(BOOL)direction animated:(BOOL)animated
 {
     if (displayViewController) {
-        [self.pageController setViewControllers:@[displayViewController] direction:UIPageViewControllerNavigationDirectionForward animated:animated completion:nil];
+        [self.pageController setViewControllers:@[displayViewController] direction:direction?UIPageViewControllerNavigationDirectionForward:UIPageViewControllerNavigationDirectionReverse animated:animated completion:nil];
     }
 }
 
@@ -168,6 +168,7 @@
 {
     if (!_viewControllers.count) return;
     
+    NSUInteger oldIdx = _selectedIndex;
     if (selectedIndex < self.viewControllers.count){
         _selectedIndex = selectedIndex;
     }else{
@@ -179,7 +180,7 @@
     void(^updateViewController)() = ^() {
         __strong typeof(&*wself) sself = wself;
         if (!sself) return ;
-        [sself updatePageViewControllerDisplayViewController:_selectedViewController animated:animated];
+        [sself updatePageViewControllerDisplayViewController:_selectedViewController direction:_selectedIndex >= oldIdx animated:animated];
         [sself updateAppearance];
         [sself pageViewControllerDidTransition];
     };
