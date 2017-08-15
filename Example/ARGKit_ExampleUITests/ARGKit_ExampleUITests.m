@@ -8,6 +8,29 @@
 
 #import <XCTest/XCTest.h>
 
+
+typedef void (^callback)(void);
+/// 随机执行
+void(^randomDone)(int maxRandomCount ,callback callback) = ^(int maxRandomCount ,callback callback) {
+    for (int i = 0; i < arc4random_uniform(maxRandomCount); i ++) {
+        if (callback) {
+            callback();
+        }
+    }
+};
+
+void(^maxDone)(int maxCount ,callback callback) = ^(int maxCount ,callback callback) {
+    for (int i = 0; i < maxCount; i ++) {
+        if (callback) {
+            callback();
+        }
+    }
+};
+
+NSUInteger randomRemainder(int remainderBase){
+    return arc4random_uniform(remainderBase) % remainderBase;
+}
+
 @interface ARGKit_ExampleUITests : XCTestCase
 /// app
 @property(nonatomic ,strong) XCUIApplication *app;
@@ -48,11 +71,9 @@
     XCUIElement *pageviewcontrollerNavigationBar = app.navigationBars[@"pageViewController"];
     XCUIElement *button = pageviewcontrollerNavigationBar.buttons[@"+"];
     XCUIElement *button2 = pageviewcontrollerNavigationBar.buttons[@"-"];
-    [button2 tap];
     
     for (NSUInteger i = 0; i < 200; i ++) {
-        NSInteger random = arc4random_uniform(3);
-        if (random % 3 == 0) {
+        if (randomRemainder(3) == 0) {
             [button tap];
         }else{
             [button2 tap];
@@ -75,76 +96,118 @@
     }
 }
 
+
+
 - (void)testPhotoBrower
 {
-    
-    
     XCUIApplication *app = self.app;
     [app.tabBars.buttons[@"\u56fe\u7247\u6d4f\u89c8\u5668"] tap];
     
     
-    for (NSUInteger i  =  0; i < 20; i ++) {
+    for (NSUInteger i = 0; i < 20; i++) {
+        
         XCUIElementQuery *scrollViewsQuery0 = app.scrollViews;
+        
         XCUIElement *scrollView0 = [scrollViewsQuery0 elementBoundByIndex:0];
         
-        XCUIElementQuery *imageVeiwQuery = [scrollViewsQuery0 childrenMatchingType:XCUIElementTypeImage];
-        NSUInteger imageViewCount = imageVeiwQuery.count - 1;
-        NSInteger _double = arc4random_uniform(2);
-        if (_double % 2 == 0) {
-            [scrollView0 swipeUp];
+        if (randomRemainder(2) == 0) {
+            randomDone(4 ,^(){
+                [scrollView0 swipeUp];
+            });
         }else{
-            [scrollView0 swipeDown];
+            randomDone(2 ,^(){
+                [scrollView0 swipeDown];
+            });
         }
-         XCUIElement *imageView = [imageVeiwQuery elementBoundByIndex:arc4random_uniform((int)imageViewCount)];
+        
+        XCUIElementQuery *imageViewQuery = [scrollViewsQuery0 childrenMatchingType:XCUIElementTypeImage];
+        NSUInteger imageViewCount = imageViewQuery.count - 1;
+        NSUInteger imageViewIdx = arc4random_uniform((int)imageViewCount);
+        XCUIElement *imageView = [imageViewQuery elementBoundByIndex:imageViewIdx];
         [imageView tap];
         
-        NSInteger _four = arc4random_uniform(4);
         
         XCUIElementQuery *scrollViewsQuery1 = app.scrollViews;
-        XCUIElement *scrollView1 = [scrollViewsQuery1 elementBoundByIndex:1];
+        XCUIElement *scrollView1 = [scrollViewsQuery1 elementBoundByIndex:0];
+        XCUIElement *(^photo)() = ^XCUIElement*() {
+            return [app.scrollViews elementBoundByIndex:1];
+        };
+        XCUIElement *scrollView2 = photo();
         
-        
-        switch (_four % 4) {
+        switch (randomRemainder(4)) {
             case 0:
-                [scrollView1 swipeRight];
-                [scrollView1 swipeRight];
-                [scrollView1 swipeRight];
-                [scrollView1 swipeLeft];
-                [scrollView1 swipeLeft];
-                [scrollView1 tap];
+            {
+                randomDone(4,^(){
+                    [scrollView1 swipeRight];
+                });
+                maxDone(2,^(){
+                    [scrollView2 doubleTap];
+                });
+                randomDone(4,^(){
+                    [scrollView1 swipeLeft];
+                });
+                [scrollView2 tap];
+            }
                 break;
             case 1:
-                [scrollView1 swipeLeft];
-                [scrollView1 swipeRight];
-                [scrollView1 swipeRight];
-                [scrollView1 swipeLeft];
-                [scrollView1 doubleTap];
+            {
+                randomDone(4,^(){
+                    [scrollView1 swipeLeft];
+                });
+                randomDone(4,^(){
+                    [scrollView1 swipeRight];
+                });
+                randomDone(4,^(){
+                    [scrollView1 swipeLeft];
+                });
+                switch (randomRemainder(3)) {
+                    case 0:
+                        [scrollView2 tap];
+                        break;
+                    case 1:
+                        [scrollView2 swipeDown];
+                        break;
+                    case 2:
+                        [scrollView2 swipeUp];
+                        break;
+                    default:
+                        break;
+                }
+            }
                 break;
             case 2:
-                [scrollView1 swipeRight];
-                [scrollView1 swipeRight];
-                [scrollView1 doubleTap];
-                [scrollView1 swipeLeft];
-                [scrollView1 swipeLeft];
-                [scrollView1 tap];
+            {
+                randomDone(4,^(){
+                    [scrollView1 swipeRight];
+                });
+                maxDone(2,^(){
+                    [scrollView2 doubleTap];
+                });
+                randomDone(4,^(){
+                    [scrollView1 swipeLeft];
+                });
+                [scrollView1 swipeUp];
+            }
                 break;
             case 3:
-                
-                [scrollView1 swipeLeft];
-                [scrollView1 swipeRight];
-                [scrollView1 swipeRight];
-                [scrollView1 swipeRight];
-                [scrollView1 doubleTap];
-                [scrollView1 doubleTap];
-                [scrollView1 swipeLeft];
-                [scrollView1 tap];
+            {
+                randomDone(4,^(){
+                    [scrollView1 swipeRight];
+                });
+                maxDone(2,^(){
+                    [scrollView2 doubleTap];
+                });
+                randomDone(4,^(){
+                    [scrollView1 swipeLeft];
+                });
+                [scrollView1 swipeDown];
+            }
                 break;
             default:
                 break;
         }
-        
     }
-    
+
 }
 
 

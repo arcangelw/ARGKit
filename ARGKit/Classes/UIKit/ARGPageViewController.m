@@ -19,9 +19,11 @@
 }
 
 /// pageController
-@property(nonatomic ,strong) UIPageViewController *pageController;
+@property(nonatomic ,copy) UIPageViewController *pageController;
 /// tmpIndex
 @property NSUInteger tmpIndex;
+/// isDrag
+@property BOOL isDrag;
 @property(nonatomic ,strong) NSLayoutConstraint *contraint1;
 @property(nonatomic ,strong) NSLayoutConstraint *contraint2;
 @property(nonatomic ,strong) NSLayoutConstraint *contraint3;
@@ -53,9 +55,13 @@
     [self.view addSubview:self.pageController.view];
     [self.pageController.view setTranslatesAutoresizingMaskIntoConstraints:NO];
     self.contraint1 = [NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.contentInset.top];
+    self.contraint1.priority = UILayoutPriorityRequired;
     self.contraint2 = [NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0 constant:self.contentInset.left];
+    self.contraint2.priority = UILayoutPriorityRequired;
     self.contraint3 = [NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-self.contentInset.bottom];
+    self.contraint3.priority = UILayoutPriorityRequired;
     self.contraint4 = [NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0 constant:self.contentInset.right];
+    self.contraint4.priority = UILayoutPriorityRequired;
     //把约束添加到父视图上
     NSArray *array = [NSArray arrayWithObjects:self.contraint1, self.contraint2, self.contraint3, self.contraint4, nil];
     [self.view addConstraints:array];
@@ -167,6 +173,8 @@
 - (void)setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated
 {
     if (!_viewControllers.count) return;
+    
+    self.isDrag = NO;
     
     NSUInteger oldIdx = _selectedIndex;
     if (selectedIndex < self.viewControllers.count){
@@ -389,6 +397,7 @@
 {
     UIViewController *next = pendingViewControllers.firstObject;
     self.tmpIndex = [self.viewControllers indexOfObject:next];
+    self.isDrag = YES;
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed
@@ -415,7 +424,9 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-
+    //非手动拖拽 不显示进度
+    if (!self.isDrag) return;
+    
     NSInteger index = round(scrollView.contentOffset.x / CGRectGetWidth(scrollView.frame)) - 1 + _selectedIndex;
     
     NSUInteger idx = PAGE_CLAMP(index, 0, self.viewControllers.count - 1);

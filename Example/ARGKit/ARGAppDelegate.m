@@ -31,6 +31,8 @@
     photo.title = @"图片浏览器";
     UINavigationController *nav2  = [[UINavigationController alloc]initWithRootViewController:photo];
     [nav2.navigationBar setTranslucent:NO];
+    [nav2.navigationBar setHidden:YES];
+    [nav2.navigationBar setHidden:YES];
     
     UITabBarController *tabbar = [[UITabBarController alloc]init];
     [tabbar addChildViewController:nav0];
