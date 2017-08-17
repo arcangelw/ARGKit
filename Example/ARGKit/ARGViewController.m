@@ -30,6 +30,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+//    UIView *zeroHeightView = [UIView new];
+//    zeroHeightView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth;
+//    [zeroHeightView setFrame:CGRectMake(0.f, 0.f, self.view.bounds.size.width, 0.f)];
+//    [self.view addSubview:zeroHeightView];
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     [[SDWebImageManager sharedManager].imageDownloader downloadImageWithURL:[NSURL URLWithString:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502173366193&di=56a62a9c0e66a84ecb33ae24fb31fda9&imgtype=0&src=http%3A%2F%2Fwww.ai1mi.com%2Fdata%2Fuploads%2F2014%2F0830%2F17%2F1409390969252541.jpg"] options:kNilOptions progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {

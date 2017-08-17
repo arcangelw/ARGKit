@@ -10,6 +10,8 @@
 		33D079441F413CEE004D4C66 /* ARGKit_ExampleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D079431F413CEE004D4C66 /* ARGKit_ExampleUITests.m */; };
 		33D0794D1F413E50004D4C66 /* ARGDemoEmptyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D0794C1F413E50004D4C66 /* ARGDemoEmptyViewController.m */; };
 		33DEE73A1F3B2A5200F2084C /* ARGDemoPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33DEE7391F3B2A5200F2084C /* ARGDemoPageViewController.m */; };
+		33EF578E1F452E6200C2DD49 /* ARGOffsetPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33EF578D1F452E6200C2DD49 /* ARGOffsetPageViewController.m */; };
+		33EF57911F452E8B00C2DD49 /* ARGOfsetTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33EF57901F452E8B00C2DD49 /* ARGOfsetTableViewController.m */; };
 		347C8FAA83F0924B0AEAB542 /* Pods_ARGKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF48679B4E510327A90CBEDA /* Pods_ARGKit_Example.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -57,6 +59,10 @@
 		33D0794C1F413E50004D4C66 /* ARGDemoEmptyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARGDemoEmptyViewController.m; sourceTree = "<group>"; };
 		33DEE7381F3B2A5200F2084C /* ARGDemoPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARGDemoPageViewController.h; sourceTree = "<group>"; };
 		33DEE7391F3B2A5200F2084C /* ARGDemoPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARGDemoPageViewController.m; sourceTree = "<group>"; };
+		33EF578C1F452E6200C2DD49 /* ARGOffsetPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARGOffsetPageViewController.h; sourceTree = "<group>"; };
+		33EF578D1F452E6200C2DD49 /* ARGOffsetPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARGOffsetPageViewController.m; sourceTree = "<group>"; };
+		33EF578F1F452E8B00C2DD49 /* ARGOfsetTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARGOfsetTableViewController.h; sourceTree = "<group>"; };
+		33EF57901F452E8B00C2DD49 /* ARGOfsetTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARGOfsetTableViewController.m; sourceTree = "<group>"; };
 		390BA4A5AB0BB752C711972F /* Pods_ARGKit_Example_ARGKit_ExampleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARGKit_Example_ARGKit_ExampleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EBB0AD5E45DE30E44D89543 /* Pods-ARGKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARGKit_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARGKit_Example/Pods-ARGKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		4F6237FDF2127C7C10A7AAC5 /* Pods-ARGKit_Example-ARGKit_ExampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARGKit_Example-ARGKit_ExampleUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARGKit_Example-ARGKit_ExampleUITests/Pods-ARGKit_Example-ARGKit_ExampleUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -182,6 +188,10 @@
 				33DEE7391F3B2A5200F2084C /* ARGDemoPageViewController.m */,
 				33D0794B1F413E50004D4C66 /* ARGDemoEmptyViewController.h */,
 				33D0794C1F413E50004D4C66 /* ARGDemoEmptyViewController.m */,
+				33EF578C1F452E6200C2DD49 /* ARGOffsetPageViewController.h */,
+				33EF578D1F452E6200C2DD49 /* ARGOffsetPageViewController.m */,
+				33EF578F1F452E8B00C2DD49 /* ARGOfsetTableViewController.h */,
+				33EF57901F452E8B00C2DD49 /* ARGOfsetTableViewController.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -556,7 +566,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33EF57911F452E8B00C2DD49 /* ARGOfsetTableViewController.m in Sources */,
 				33D0794D1F413E50004D4C66 /* ARGDemoEmptyViewController.m in Sources */,
+				33EF578E1F452E6200C2DD49 /* ARGOffsetPageViewController.m in Sources */,
 				6003F59E195388D20070C39A /* ARGAppDelegate.m in Sources */,
 				33DEE73A1F3B2A5200F2084C /* ARGDemoPageViewController.m in Sources */,
 				6003F5A7195388D20070C39A /* ARGViewController.m in Sources */,

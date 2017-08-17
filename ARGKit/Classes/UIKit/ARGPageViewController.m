@@ -52,6 +52,14 @@
 {
     [super viewDidLoad];
     
+    /**
+     * https://stackoverflow.com/questions/18967859/ios7-uiscrollview-offset-in-uinavigationcontroller
+     */
+    UIView *zeroHeightView = [UIView new];
+    zeroHeightView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth;
+    [zeroHeightView setFrame:CGRectMake(0.f, 0.f, self.view.bounds.size.width, 0.f)];
+    [self.view addSubview:zeroHeightView];
+    
     [self.view addSubview:self.pageController.view];
     [self.pageController.view setTranslatesAutoresizingMaskIntoConstraints:NO];
     self.contraint1 = [NSLayoutConstraint constraintWithItem:self.pageController.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:self.contentInset.top];
@@ -217,7 +225,9 @@
 
 - (void)updateAppearance
 {
-    [self setNeedsFocusUpdate];
+    if ([self respondsToSelector:@selector(setNeedsFocusUpdate)]) {
+        [self setNeedsFocusUpdate];
+    }
     [self setNeedsStatusBarAppearanceUpdate];
     self.title = self.title;
     self.tabBarItem = self.tabBarItem;
@@ -437,6 +447,7 @@
     if ((self.selectedIndex == 0 && progress <= 0) || (self.selectedIndex == self.viewControllers.count - 1 && progress >= 0)) {
         return;
     }
+    
     if ([self conformsToProtocol:@protocol(ARGPageViewControllerSubclassing)]) {
         id<ARGPageViewControllerSubclassing> class = (id)self;
         [class pageViewController:self willTransitionToViewController:self.viewControllers[idx] index:idx progress:progress];

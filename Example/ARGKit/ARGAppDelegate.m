@@ -10,6 +10,24 @@
 #import "ARGViewController.h"
 #import "ARGDemoPageViewController.h"
 #import "ARGDemoEmptyViewController.h"
+#import "ARGOffsetPageViewController.h"
+
+@interface ARGNavigationBar : UINavigationBar
+
+@end
+@implementation ARGNavigationBar
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.barTintColor = [UIColor yellowColor];
+    }
+    return self;
+}
+
+@end
+
 
 @implementation ARGAppDelegate
 
@@ -19,8 +37,10 @@
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     ARGDemoPageViewController *page = [[ARGDemoPageViewController alloc]init];
-    UINavigationController *nav0  = [[UINavigationController alloc]initWithRootViewController:page];
-    [nav0.navigationBar setTranslucent:NO];
+    UINavigationController *nav0  = [[UINavigationController alloc]initWithNavigationBarClass:[ARGNavigationBar class] toolbarClass:nil];
+    [nav0 addChildViewController:page];
+//    [nav0.navigationBar setTranslucent:NO];
+    [nav0.navigationBar setBarStyle:UIBarStyleBlack];
     
     ARGDemoEmptyViewController *empty = [[ARGDemoEmptyViewController alloc]init];
     empty.title = @"pageViewController";
@@ -32,12 +52,19 @@
     UINavigationController *nav2  = [[UINavigationController alloc]initWithRootViewController:photo];
     [nav2.navigationBar setTranslucent:NO];
     [nav2.navigationBar setHidden:YES];
-    [nav2.navigationBar setHidden:YES];
+    
+    
+    ARGOffsetPageViewController *offset = [[ARGOffsetPageViewController alloc]init];
+    offset.title = @"offset demo";
+    UINavigationController *nav3 = [[UINavigationController alloc]initWithRootViewController:offset];
+    [nav3.navigationBar setHidden:YES];
+    
     
     UITabBarController *tabbar = [[UITabBarController alloc]init];
     [tabbar addChildViewController:nav0];
     [tabbar addChildViewController:nav1];
     [tabbar addChildViewController:nav2];
+    [tabbar addChildViewController:nav3];
     [tabbar.tabBar setTranslucent:NO];
     self.window.rootViewController = tabbar;
     [self.window makeKeyAndVisible];

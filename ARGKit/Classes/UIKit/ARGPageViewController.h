@@ -40,7 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addChildViewController:(UIViewController *)childController UNAVAILABLE_ATTRIBUTE;
 @property(nonatomic,readonly) NSArray<__kindof UIViewController *> *childViewControllers UNAVAILABLE_ATTRIBUTE;
 
-
 /// contentInset
 @property(nonatomic ,assign) UIEdgeInsets contentInset;
 
