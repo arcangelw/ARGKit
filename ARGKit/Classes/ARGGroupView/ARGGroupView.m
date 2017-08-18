@@ -28,6 +28,8 @@
 @property(nonatomic ,assign) NSInteger groupViewMaxRowCount;
 /// currentIndexPath
 @property(nonatomic ,strong) NSIndexPath *currnetIndexPath;
+/// groupViewPage
+@property(nonatomic ,assign) NSUInteger groupViewPage;
 @end
 @implementation ARGGroupView 
 @synthesize maxSectionCount;
@@ -58,6 +60,7 @@
 
 - (void)commonInit
 {
+    _groupViewPage = NSNotFound;
     _maxSectionCount = 0;
     _groupViewMaxRowCount = 0;
     _sectionRowCountTmp = @{}.copy;
@@ -212,9 +215,24 @@
     NSInteger intPage = floatPage + 0.5;
     intPage = intPage < 0 ? 0 : intPage >= self.groupViewMaxRowCount ? self.groupViewMaxRowCount - 1 : intPage;
 
-    self.currnetIndexPath = [self indexPathInGroupViewPage:intPage];
+    self.groupViewPage = intPage;
+    
+//    self.currnetIndexPath = [self indexPathInGroupViewPage:intPage];
     
     [self paddingLayout];
+}
+
+
+- (void)setGroupViewPage:(NSUInteger)groupViewPage
+{
+    if (_groupViewPage == groupViewPage || _groupViewPage == NSNotFound) return;
+    _groupViewPage = groupViewPage;
+    NSIndexPath *indexPath = [self indexPathInGroupViewPage:_groupViewPage];
+    self.currnetIndexPath = indexPath;
+    if (self.groupViewDelegate && [self.groupViewDelegate respondsToSelector:@selector(groupView:didScrollTo:atIndexPath:)]) {
+        ARGGroupCell *cell = [self cellForIndexPath:indexPath];
+        [self.groupViewDelegate groupView:self didScrollTo:cell atIndexPath:indexPath];
+    }
 }
 
 - (void)paddingLayout

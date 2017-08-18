@@ -23,6 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSInteger)numberOfSectionsInGroupView:(ARGGroupView *)groupView;
 
+
+- (void)groupView:(ARGGroupView *)groupView didScrollTo:(ARGGroupCell *)groupCell atIndexPath:(NSIndexPath *)indexPath;
+
+
 - (void)groupView:(ARGGroupView *)groupView didDeceleratingAtIndexPath:(NSIndexPath *)indexPath;
 - (void)groupView:(ARGGroupView *)groupView didEndDeceleratingAtIndexPath:(NSIndexPath *)indexPath;
 - (void)groupView:(ARGGroupView *)groupView didEndDisplayingAtIndexPath:(NSIndexPath *)indexPath;
